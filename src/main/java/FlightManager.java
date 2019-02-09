@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class FlightManager {
 
     public FlightManager() {
@@ -30,4 +32,24 @@ public class FlightManager {
     }
 
 
+    public void makeBooking(Flight flight, Passenger passenger) {
+        flight.bookPassenger(passenger);
+        int seatNumber = generateSeatnumber(flight);
+        passenger.addFlight(flight, seatNumber);
+    }
+
+    public int generateSeatnumber(Flight flight){
+        int capacity = flight.flightCapacity();
+        Random seatGenerator = new Random();
+        int seatNumber = seatGenerator.nextInt(capacity) + 1;
+        return seatNumber;
+    }
+
+    public boolean checkSeatAvailable(Flight flight, int seatNumber){
+        for(Passenger passenger: flight.getPassengers()){
+            if (seatNumber == passenger.getSeatNumber(){
+                return false;
+            }
+        }
+    }
 }

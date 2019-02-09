@@ -8,14 +8,18 @@ public class FlightManagerTest {
     FlightManager flightManager;
     Flight flight;
     Passenger passenger;
+    Flight flight2;
 
 
     @Before
     public void before(){
         flightManager = new FlightManager();
         flight = new Flight(2001, "Glasgow", "London" , "20:00", PlaneType.CESNA);
+        flight2 = new Flight(2001, "Glasgow", "London" , "20:00", PlaneType.BOEING737);
         passenger = new Passenger("Steven Smith", 2);
         flight.addPassenger(passenger);
+
+
     }
 
     @Test
@@ -40,5 +44,17 @@ public class FlightManagerTest {
     public void howMuchBaggaeWeightRemains(){
         int weightRemaining = flightManager.calculateBaggageWeightRemaining(flight);
         assertEquals(20, weightRemaining);
+    }
+
+    @Test
+    public void canMakeBookings(){
+        flightManager.makeBooking(flight, passenger);
+        assertEquals(2, flight.passengerCount());
+        assertEquals(flight, passenger.getFlight());
+    }
+
+    @Test
+    public void isSeatAvailable(){
+        
     }
 }
