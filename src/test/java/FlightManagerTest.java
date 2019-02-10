@@ -104,7 +104,7 @@ public class FlightManagerTest {
         passenger2.addFlight(flight2, 10);
         flight2.addPassenger(passenger);
         flight2.addPassenger(passenger2);
-        Passenger foundPassenger = flightManager.findPassengerBySeat(flight2,200);
-        assertEquals(passenger, foundPassenger);
+        Passenger foundPassenger = flightManager.findPassengerBySeat(flight2,10);
+        assertEquals(passenger2, foundPassenger);
     }
 }

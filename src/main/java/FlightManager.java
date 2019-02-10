@@ -13,7 +13,7 @@ public class FlightManager {
     }
 
     public int calculatePassengerBaggageAllowance(Flight flight) {
-        int baggageAllowance = totalEmptyBaggageWeight(flight)/ flight.getPlane().getCapacity();
+        int baggageAllowance = totalEmptyBaggageWeight(flight) / flight.getPlane().getCapacity();
         return baggageAllowance;
     }
 
@@ -21,7 +21,7 @@ public class FlightManager {
     public int calculateReservedBaggageWeight(Flight flight) {
         int bagWeight = 10;
         int passengerBaggageWeight = 0;
-        for(Passenger passenger: flight.getPassengers()){
+        for (Passenger passenger : flight.getPassengers()) {
             passengerBaggageWeight += passenger.numberOfBags * bagWeight;
         }
         return passengerBaggageWeight;
@@ -35,22 +35,22 @@ public class FlightManager {
 
     public void makeBooking(Flight flight, Passenger passenger) {
         int seatNumber = generateSeatnumber(flight);
-        if(checkSeatAvailable(flight, seatNumber)) {
+        if (checkSeatAvailable(flight, seatNumber)) {
             passenger.addFlight(flight, seatNumber);
             flight.bookPassenger(passenger);
-        }else{
+        } else {
             makeBooking(flight, passenger);
         }
     }
 
-    public int generateSeatnumber(Flight flight){
+    public int generateSeatnumber(Flight flight) {
         int capacity = flight.flightCapacity();
         Random seatGenerator = new Random();
         int seatNumber = seatGenerator.nextInt(capacity) + 1;
         return seatNumber;
     }
 
-    public boolean checkSeatAvailable(Flight flight, int seatNumber){
+    public boolean checkSeatAvailable(Flight flight, int seatNumber) {
         if (flight.passengerCount() > 0) {
             for (Passenger passenger : flight.getPassengers()) {
                 if (seatNumber == passenger.getSeatNumber()) {
@@ -61,7 +61,7 @@ public class FlightManager {
         return true;
     }
 
-    public void sortBySeatNumber(Flight flight){
+    public void sortBySeatNumber(Flight flight) {
 
         int numberOfPassengers = flight.passengerCount();
 
@@ -71,10 +71,10 @@ public class FlightManager {
         for (int i = 0; i < numberOfPassengers; i++) {
             for (int j = 0; j < numberOfPassengers - i - 1; j++) {
                 if (flight.getPassenger(j).getSeatNumber() > flight.getPassenger(j + 1).getSeatNumber()) {
-                    temp = flight.getPassenger(j+1);
+                    temp = flight.getPassenger(j + 1);
                     temp2 = flight.getPassenger(j);
                     flight.getPassengers().set(j, temp);
-                    flight.getPassengers().set(j+1, temp2);
+                    flight.getPassengers().set(j + 1, temp2);
 
                 }
             }
@@ -87,9 +87,17 @@ public class FlightManager {
         int start = 0;
         int end = flight.passengerCount() - 1;
 
-        while(start <= end){
+        while (start <= end) {
             int mid = (start + end) / 2;
-            if ()
+
+            if (seatNumber == flight.getPassenger(mid).getSeatNumber()) {
+                return flight.getPassenger(mid);
+            } else if (seatNumber < flight.getPassenger(mid).getSeatNumber()) {
+                end = mid - 1;
+            } else if (seatNumber > flight.getPassenger(mid).getSeatNumber()) {
+                start = mid + 1;
+            }
         }
+        return null;
     }
 }
