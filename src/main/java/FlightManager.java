@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class FlightManager {
@@ -33,9 +34,13 @@ public class FlightManager {
 
 
     public void makeBooking(Flight flight, Passenger passenger) {
-        flight.bookPassenger(passenger);
         int seatNumber = generateSeatnumber(flight);
-        passenger.addFlight(flight, seatNumber);
+        if(checkSeatAvailable(flight, seatNumber)) {
+            passenger.addFlight(flight, seatNumber);
+            flight.bookPassenger(passenger);
+        }else{
+            makeBooking(flight, passenger);
+        }
     }
 
     public int generateSeatnumber(Flight flight){
@@ -46,10 +51,45 @@ public class FlightManager {
     }
 
     public boolean checkSeatAvailable(Flight flight, int seatNumber){
-        for(Passenger passenger: flight.getPassengers()){
-            if (seatNumber == passenger.getSeatNumber(){
-                return false;
+        if (flight.passengerCount() > 0) {
+            for (Passenger passenger : flight.getPassengers()) {
+                if (seatNumber == passenger.getSeatNumber()) {
+                    return false;
+                }
             }
+        }
+        return true;
+    }
+
+    public void sortBySeatNumber(Flight flight){
+
+        int numberOfPassengers = flight.passengerCount();
+
+        Passenger temp;
+        Passenger temp2;
+
+        for (int i = 0; i < numberOfPassengers; i++) {
+            for (int j = 0; j < numberOfPassengers - i - 1; j++) {
+                if (flight.getPassenger(j).getSeatNumber() > flight.getPassenger(j + 1).getSeatNumber()) {
+                    temp = flight.getPassenger(j+1);
+                    temp2 = flight.getPassenger(j);
+                    flight.getPassengers().set(j, temp);
+                    flight.getPassengers().set(j+1, temp2);
+
+                }
+            }
+        }
+    }
+
+    public Passenger findPassengerBySeat(Flight flight, int seatNumber) {
+        sortBySeatNumber(flight);
+
+        int start = 0;
+        int end = flight.passengerCount() - 1;
+
+        while(start <= end){
+            int mid = (start + end) / 2;
+            if ()
         }
     }
 }

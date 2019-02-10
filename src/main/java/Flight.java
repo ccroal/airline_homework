@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Flight {
 
@@ -24,6 +25,10 @@ public class Flight {
 
     public ArrayList<Passenger> getPassengers() {
         return passengers;
+    }
+
+    public Passenger getPassenger(int index){
+        return this.passengers.get(index);
     }
 
     public String getDestination() {
@@ -60,11 +65,20 @@ public class Flight {
         return emptySeats;
     }
 
+    public boolean checkSpaceAvailable(){
+        if (findEmptySeats() >= passengerCount()) {
+            return true;
+        }
+        return false;
+    }
+
     public void bookPassenger(Passenger passenger){
-        if (findEmptySeats() >= passengerCount()){
+        if (checkSpaceAvailable()){
             this.addPassenger(passenger);
         }
     }
+
+
 
 
 }
